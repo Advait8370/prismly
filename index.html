@@ -5,9 +5,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Pinterest Verification -->
-<meta name="p:domain_verify" content="37d33532948667fd93b4d42022c99405"/>
-
 <title>Prismly</title>
 
 <link rel="stylesheet" href="style.css">
@@ -16,58 +13,28 @@
 
 <body>
 
-<div class="bg-glow"></div>
-
-<!-- APP -->
 <div class="app">
 
-  <!-- HOME -->
-  <div id="home" class="screen active">
-    <h1>✨ Prismly</h1>
+  <h1>✨ Prismly</h1>
 
-    <a href="https://in.pinterest.com/advait8370/" target="_blank" class="board-btn">
-      🔗 Open My Pinterest Board
-    </a>
+  <button onclick="login()">Login</button>
+  <button onclick="logout()">Logout</button>
 
-    <div id="grid" class="grid"></div>
-  </div>
+  <p id="user">Not logged in</p>
 
-  <!-- SEARCH -->
-  <div id="search" class="screen">
-    <h2>🔍 Search</h2>
-    <input id="searchInput" placeholder="Search saved pins..." oninput="searchPins()">
-  </div>
+  <input id="pinUrl" placeholder="Paste image URL">
+  <button onclick="savePin()">Save</button>
 
-  <!-- ADD -->
-  <div id="add" class="screen">
-    <h2>➕ Add Pin</h2>
-    <input id="pinUrl" placeholder="Paste Image URL">
-    <button onclick="savePin()">Save</button>
-  </div>
-
-  <!-- PROFILE -->
-  <div id="profile" class="screen">
-    <h2>👤 Profile</h2>
-    <button onclick="login()">Login with Google</button>
-    <button onclick="logout()">Logout</button>
-    <p id="user">Not logged in</p>
-  </div>
+  <div id="grid"></div>
 
 </div>
 
-<!-- NAV -->
-<div class="nav">
-  <div onclick="switchTab('home')">🏠</div>
-  <div onclick="switchTab('search')">🔍</div>
-  <div onclick="switchTab('add')">➕</div>
-  <div onclick="switchTab('profile')">👤</div>
-</div>
-
-<!-- Firebase (COMPAT) -->
+<!-- ✅ FIREBASE (COMPAT VERSION ONLY) -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+<!-- ✅ YOUR SCRIPT LAST -->
 <script src="script.js"></script>
 
 </body>
