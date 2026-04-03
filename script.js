@@ -1,65 +1,115 @@
-// 🔥 Firebase Config
+// =============================
+// 🔥 FIREBASE CONFIG
+// =============================
 const firebaseConfig = {
   apiKey: "AIzaSyB4DnVCaG56Lyzzq6Nu765UOONXpVGs9VA",
   authDomain: "pintrest-8370.firebaseapp.com",
-  projectId: "pintrest-8370"
+  projectId: "pintrest-8370",
+  storageBucket: "pintrest-8370.firebasestorage.app",
+  messagingSenderId: "1050482929006",
+  appId: "1:1050482929006:web:b7c95ee481f43140eca57f"
 };
 
-// Init
+// =============================
+// 🚀 INITIALIZE FIREBASE
+// =============================
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+let currentUser = null;
 let allPins = [];
 
-// Switch Tabs
+// =============================
+// 📱 TAB SWITCHING (SMOOTH)
+// =============================
 function switchTab(tab) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.getElementById(tab).classList.add("active");
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  const target = document.getElementById(tab);
+  if (target) target.classList.add("active");
 }
 
-// Login
+// =============================
+// 🔐 LOGIN
+// =============================
 function login() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider);
+
+  auth.signInWithPopup(provider)
+    .then(() => {
+      console.log("Login success");
+    })
+    .catch(err => {
+      console.error("Login error:", err);
+      alert(err.message);
+    });
 }
 
-// Logout
+// =============================
+// 🚪 LOGOUT
+// =============================
 function logout() {
   auth.signOut();
 }
 
-// Auth State
+// =============================
+// 👤 AUTH STATE LISTENER
+// =============================
 auth.onAuthStateChanged(user => {
   if (user) {
-    document.getElementById("user").innerText = "Welcome " + user.displayName;
+    currentUser = user;
+
+    document.getElementById("user").innerText =
+      "Welcome " + user.displayName;
+
     loadPins(user.uid);
   } else {
-    document.getElementById("user").innerText = "Not logged in";
+    currentUser = null;
+    document.getElementById("user").innerText =
+      "Not logged in";
+
+    document.getElementById("grid").innerHTML = "";
   }
 });
 
-// Save Pin
+// =============================
+// 💾 SAVE PIN
+// =============================
 function savePin() {
-  const url = document.getElementById("pinUrl").value;
-  const user = auth.currentUser;
+  const input = document.getElementById("pinUrl");
+  const url = input.value.trim();
 
-  if (!user) {
+  if (!currentUser) {
     alert("Login first!");
     return;
   }
 
+  if (!url) {
+    alert("Enter image URL");
+    return;
+  }
+
   db.collection("pins").add({
-    uid: user.uid,
+    uid: currentUser.uid,
     url: url,
     created: Date.now()
+  })
+  .then(() => {
+    console.log("Pin saved");
+    input.value = "";
+  })
+  .catch(err => {
+    console.error("Save error:", err);
   });
-
-  document.getElementById("pinUrl").value = "";
 }
 
-// Load Pins
+// =============================
+// 📥 LOAD PINS (REALTIME)
+// =============================
 function loadPins(uid) {
   db.collection("pins")
     .where("uid", "==", uid)
@@ -73,23 +123,49 @@ function loadPins(uid) {
         const data = doc.data();
         allPins.push(data);
 
-        html += `<img src="${data.url}">`;
+        html += `
+          <img src="${data.url}" loading="lazy">
+        `;
       });
 
       document.getElementById("grid").innerHTML = html;
+    }, err => {
+      console.error("Load error:", err);
     });
 }
 
-// Search
+// =============================
+// 🔍 SEARCH
+// =============================
 function searchPins() {
-  const query = document.getElementById("searchInput").value.toLowerCase();
+  const query = document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase();
 
   let html = "";
-  allPins.forEach(p => {
-    if (p.url.toLowerCase().includes(query)) {
-      html += `<img src="${p.url}">`;
+
+  allPins.forEach(pin => {
+    if (pin.url.toLowerCase().includes(query)) {
+      html += `<img src="${pin.url}" loading="lazy">`;
     }
   });
 
   document.getElementById("grid").innerHTML = html;
 }
+
+// =============================
+// ⚡ OPTIONAL: AUTO SWITCH TO HOME AFTER SAVE
+// =============================
+function goHomeAfterSave() {
+  switchTab("home");
+}
+
+// =============================
+// 🧠 OPTIONAL: PREVENT IMAGE BREAK
+// =============================
+document.addEventListener("error", function(e) {
+  if (e.target.tagName === "IMG") {
+    e.target.style.display = "none";
+  }
+}, true);
