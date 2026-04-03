@@ -15,21 +15,49 @@
 
 <div class="app">
 
-  <h1>✨ Prismly</h1>
+  <!-- HOME -->
+  <div id="home" class="screen active">
+    <h1>✨ Prismly</h1>
 
-  <button onclick="login()">Login</button>
-  <button onclick="logout()">Logout</button>
+    <a href="https://in.pinterest.com/advait8370/" target="_blank" class="board-btn">
+      Open My Pinterest
+    </a>
 
-  <p id="user">Not logged in</p>
+    <div id="grid" class="grid"></div>
+  </div>
 
-  <input id="pinUrl" placeholder="Paste image URL">
-  <button onclick="savePin()">Save</button>
+  <!-- SEARCH -->
+  <div id="search" class="screen">
+    <h2>Search</h2>
+    <input id="searchInput" placeholder="Search..." oninput="searchPins()">
+  </div>
 
-  <div id="grid"></div>
+  <!-- ADD -->
+  <div id="add" class="screen">
+    <h2>Add Pin</h2>
+    <input id="pinUrl" placeholder="Image URL">
+    <button onclick="savePin()">Save</button>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profile" class="screen">
+    <h2>Profile</h2>
+    <button onclick="login()">Login</button>
+    <button onclick="logout()">Logout</button>
+    <p id="user">Not logged in</p>
+  </div>
 
 </div>
 
-<!-- ✅ FIREBASE (COMPAT VERSION ONLY) -->
+<!-- NAV -->
+<div class="nav">
+  <div onclick="switchTab('home')">🏠</div>
+  <div onclick="switchTab('search')">🔍</div>
+  <div onclick="switchTab('add')">➕</div>
+  <div onclick="switchTab('profile')">👤</div>
+</div>
+
+<!-- ✅ FIREBASE (COMPAT ONLY) -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
