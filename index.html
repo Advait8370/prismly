@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 
-<link rel="icon" type="image/png" href="favicon.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Prismly</title>
+
+<!-- ✅ FAVICON -->
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 
 <link rel="stylesheet" href="style.css">
 
@@ -14,39 +17,32 @@
 
 <body>
 
-<div class="bg-glow"></div>
-
 <div class="app">
 
   <!-- HOME -->
   <div id="home" class="screen active">
     <h1>✨ Prismly</h1>
 
-    <div class="card">
-      <a href="https://in.pinterest.com/advait8370/" target="_blank">
-        Open My Pinterest Board
-      </a>
-    </div>
+    <a href="https://in.pinterest.com/advait8370/" target="_blank" class="board-btn">
+      Open My Pinterest Board
+    </a>
 
     <div id="grid" class="grid"></div>
   </div>
 
   <!-- SEARCH -->
   <div id="search" class="screen">
-    <h2>🔍 Search</h2>
     <input id="searchInput" placeholder="Search pins..." oninput="searchPins()">
   </div>
 
   <!-- ADD -->
   <div id="add" class="screen">
-    <h2>➕ Add Pin</h2>
-    <input id="pinUrl" placeholder="Paste Image URL">
+    <input id="pinUrl" placeholder="Paste image URL">
     <button onclick="savePin()">Save</button>
   </div>
 
   <!-- PROFILE -->
   <div id="profile" class="screen">
-    <h2>👤 Profile</h2>
     <button onclick="login()">Login</button>
     <button onclick="logout()">Logout</button>
     <p id="user">Not logged in</p>
@@ -54,7 +50,7 @@
 
 </div>
 
-<!-- FLOATING NAV -->
+<!-- NAV -->
 <div class="nav">
   <div onclick="switchTab('home')">🏠</div>
   <div onclick="switchTab('search')">🔍</div>
